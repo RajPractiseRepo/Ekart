@@ -68,6 +68,36 @@ pipeline {
         }
         
         
+        stage("Push Docker Image"){
+            steps{
+               script{
+                   
+                   withDockerRegistry(credentialsId: 'ae5ff369-865d-4e4f-b6a7-98526ea1007a', toolName: 'docker') {
+                   
+                   sh "docker push rajpractise/shopping-cart:latest"
+    
+                }
+                   
+               }
+            }
+        }
+        
+        
+         stage("Deploy to Docker Container"){
+            steps{
+               script{
+                   
+                   withDockerRegistry(credentialsId: 'ae5ff369-865d-4e4f-b6a7-98526ea1007a', toolName: 'docker') {
+                   
+                   sh "docker run -d --name shopping -p 8070:8070  rajpractise/shopping-cart:latest"
+    
+                }
+                   
+               }
+            }
+        }
+        
+        
         
         
     }
